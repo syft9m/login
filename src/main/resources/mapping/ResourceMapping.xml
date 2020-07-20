@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.login.mapper.ResourceMapper">
+
+    <resultMap id="BaseResultMap" type="com.sgm.login.model.entity.Resource">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="method" jdbcType="VARCHAR" property="method" />
+    </resultMap>
+    <insert id="saveResource" parameterType="com.sgm.login.model.entity.Resource" useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
+    INSERT INTO `sys_resource`(`code`,`name`,`url`,`method`)
+    VALUE (#{resource.code},#{resource.name},#{resource.url},#{resource.method});
+    </insert>
+    <update id="updateResource" parameterType="com.sgm.login.model.entity.Resource" >
+    UPDATE
+    `sys_resource`
+    SET
+    `code`=#{resource.code},`name`=#{resource.name},`url`=#{resource.url},`method`=#{resource.method}
+    WHERE id=#{resource.id}
+    </update>
+    <!-- 根据资源id获取资源详情 -->
+    <select id="selectById" resultType="com.sgm.login.model.entity.Resource">
+    select * from sys_resource where id = #{id}
+    </select>
+    <!-- 查询所有的资源信息 -->
+    <select id="findAll" resultType="com.sgm.login.model.entity.Resource">
+    select * from sys_resource
+    </select>
+    <!-- 查询总条数 -->
+    <select id="count" resultType="java.lang.Integer" >
+    select count(*) from sys_resource
+    </select>
+    <!--删除资源-->
+    <delete id="delete" parameterType="java.lang.Integer">
+    delete from sys_resource where id = #{id}
+    </delete>
+    <!--根据url和method 获取条数-->
+    <select id="countByUrl" resultType="java.lang.Integer">
+    select count(*) from sys_resource where url=#{url} and method=#{method}
+    </select>
+</mapper>

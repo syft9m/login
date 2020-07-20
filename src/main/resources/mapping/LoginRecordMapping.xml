@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.login.mapper.LoginRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.sgm.login.model.entity.LoginRecord">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="count" jdbcType="INTEGER" property="count" />
+    </resultMap>
+
+    <!-- 根据用户名称查询登录次数 -->
+    <select id="countLoginByUserName" resultType="java.lang.Integer">
+    select count from sys_login_count where user_name = #{userName}
+    </select>
+    <!-- 首次登录插入登录记录 -->
+    <insert id="firstLogin" parameterType="java.lang.String">
+    insert into `sys_login_count`(`user_name`,`count`) VALUE (#{userName},1);
+    </insert>
+    <!-- 登录次数+1 -->
+    <update id="addLogin" parameterType="java.lang.String" >
+    update sys_login_count set count=count+1 where user_name=#{userName};
+    </update>
+    <!--查询所有登录记录-->
+    <select id="findAll" resultType="com.sgm.login.model.entity.LoginRecord">
+    select * from sys_login_count
+    </select>
+
+
+</mapper>

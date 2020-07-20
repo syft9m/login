@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.login.mapper.LoginMapper">
+
+    <resultMap id="BaseResultMap" type="com.sgm.login.model.entity.Login">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="token_id" jdbcType="VARCHAR" property="tokenId" />
+    </resultMap>
+    <insert id="saveLogin"  useGeneratedKeys="true"  keyColumn="id" >
+    INSERT INTO `sys_login`(`user_name`,`token_id`)
+    VALUE (#{userName},#{tokenId});
+    </insert>
+    <select id="countLogin" resultType="java.lang.Integer" >
+    SELECT count(*)
+    FROM `sys_login`
+    WHERE user_name=#{userName} and token_id=#{tokenId}
+    </select>
+    <!-- 根据token获取用户名称 -->
+    <select id="findUserNameByTokenId" resultType="java.lang.String">
+    select user_name from sys_login where token_id = #{tokenId}
+    </select>
+
+
+</mapper>

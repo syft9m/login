@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.login.mapper.UserRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.sgm.login.model.entity.UserRole">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+    </resultMap>
+
+    <!--根据用户id删除该用户的所有角色-->
+    <delete id="deleteRoleByUserId" parameterType="java.lang.Integer">
+    delete from sys_user_role where role_id=#{roleId}
+    </delete>
+
+    <!--根据用户id获取该用户下的所有角色-->
+    <select id="findRoleByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    select role_id from sys_user_role where user_id=#{userId}
+    </select>
+
+    <!--给用户授权角色-->
+    <insert id="saveUserRole" parameterType="com.sgm.login.model.entity.UserRole" useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
+    INSERT INTO `sys_user_role`(`role_id`,`user_id`)
+    VALUE (#{userRole.roleId},#{userRole.userId});
+    </insert>
+
+
+</mapper>
